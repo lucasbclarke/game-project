@@ -29,7 +29,9 @@ fn movementofplayer() void {
    } else {
       if (rl.isKeyDown(.k)) {   
          player.recPos.y -= 10;
-      }                         
+      } else {
+         player.recPos.y += 12;
+      }
    }
 
    if (player.recPos.x > (border.recSize.x - 100)) {
