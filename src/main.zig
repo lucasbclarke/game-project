@@ -18,7 +18,8 @@ const border = enum {
 };
 
 fn movementofplayer() void {
-   if (player.recPos.y > (border.recSize.y - 100)) {
+   if (player.recPos.y > (border.recSize.y - 290)) {
+      player.recPos.y = player.recPos.y; 
    } else {
       if (rl.isKeyDown(.j)) {   
          player.recPos.y += 10;
@@ -26,15 +27,15 @@ fn movementofplayer() void {
    }
 
    if (player.recPos.y < 1) {
-   } else {
-      if (rl.isKeyDown(.k)) {   
+      player.recPos.y = player.recPos.y;
+   } else if (rl.isKeyDown(.k)) {   
          player.recPos.y -= 10;
-      } else {
-         player.recPos.y += 12;
-      }
+   } else if (player.recPos.y > 1 and (rl.isKeyDown(.k) != true)) {
+      player.recPos.y += 12;
    }
 
-   if (player.recPos.x > (border.recSize.x - 100)) {
+   if (player.recPos.x > (border.recSize.x - 590)) {
+      player.recPos.x = player.recPos.x;
    } else {
       if (rl.isKeyDown(.l)) {
          player.recPos.x += 10;
@@ -42,6 +43,7 @@ fn movementofplayer() void {
    }
 
    if (player.recPos.x < 1) {
+      player.recPos.x = player.recPos.x;
    } else {
       if (rl.isKeyDown(.h)) {   
          player.recPos.x -= 10;
