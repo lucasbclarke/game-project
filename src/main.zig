@@ -8,7 +8,7 @@ const windowH: u16 = 1080;
 const player = enum {
    var recPos = rl.Vector2.init(windowW / 2, windowH / 2);
    const recSize = rl.Vector2.init(100, 100);
-   const recC: rl.Color = .red;
+   var recC: rl.Color = .red;
 };
 
 const border = enum {
@@ -18,21 +18,25 @@ const border = enum {
 };
 
 fn movementofplayer() void {
-   if (player.recPos.y > (border.recSize.y - 290)) {
-      player.recPos.y = player.recPos.y; 
+   //if (rl.isKeyDown(.j) != true and rl.isKeyDown(.k) != true and rl.isKeyDown(.h) != true and rl.isKeyDown(.l) != true) {
+   if (rl.isKeyDown(.j) != true and rl.isKeyDown(.k) != true) {
+      player.recPos.y += 10;
+   }
+
+
+   if (player.recPos.y < 1 ) {
+      player.recPos.y = 1;
    } else {
       if (rl.isKeyDown(.j)) {   
          player.recPos.y += 10;
       }
    }
 
-   if (player.recPos.y < 1) {
-      player.recPos.y = player.recPos.y;
+   if (player.recPos.y > windowH - player.recSize.y - 180) {
+      player.recPos.y = windowH - player.recSize.y - 180;
    } else if (rl.isKeyDown(.k)) {   
          player.recPos.y -= 10;
-   } else if (player.recPos.y > 1 and (rl.isKeyDown(.k) != true)) {
-      player.recPos.y += 12;
-   }
+   } 
 
    if (player.recPos.x > (border.recSize.x - 590)) {
       player.recPos.x = player.recPos.x;
