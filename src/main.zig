@@ -6,7 +6,7 @@ const windowW: u16 = 1920;
 const windowH: u16 = 1080;
 
 const player = enum {
-   var recPos = rl.Vector2.init(windowW / 2, windowH / 2);
+   var recPos = rl.Vector2.init(650, 900);
    const recSize = rl.Vector2.init(100, 100);
    var recC: rl.Color = .red;
 };
@@ -17,8 +17,16 @@ const border = enum {
    const recC: rl.Color = .black;
 };
 
+
+var camera = rl.Camera2D {
+   .target = .init(player.recPos.x, player.recPos.y),
+   .offset = .init(windowW / 2, windowH / 2),
+   .rotation = 0,
+   .zoom = 1,
+};
+
+
 fn movementofplayer() void {
-   //if (rl.isKeyDown(.j) != true and rl.isKeyDown(.k) != true and rl.isKeyDown(.h) != true and rl.isKeyDown(.l) != true) {
    if (rl.isKeyDown(.j) != true and rl.isKeyDown(.k) != true) {
       player.recPos.y += 10;
    }
@@ -57,6 +65,26 @@ fn movementofplayer() void {
 }
 
 
+fn movementofcamera() void {
+   if(rl.isKeyDown(.right)) {
+         camera.target.x += 1;
+   }
+
+   if(rl.isKeyDown(.left)) {
+         camera.target.x -= 1;
+   }
+
+   if(rl.isKeyDown(.up)) {
+         camera.target.y -= 1;
+   }
+
+   if(rl.isKeyDown(.down)) {
+         camera.target.y += 1;
+   }
+
+}
+
+
 pub fn main() !void {
    rl.initWindow(windowW, windowH, "Window");
    defer rl.closeWindow();
@@ -76,5 +104,6 @@ pub fn main() !void {
         rl.drawRectangleV(player.recPos, player.recSize, player.recC);
       
         movementofplayer();    
+        movementofcamera();
     }
 }
