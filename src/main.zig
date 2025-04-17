@@ -17,14 +17,10 @@ const border = enum {
    const recC: rl.Color = .black;
 };
 
-
-var camera = rl.Camera2D {
-   .target = .init(player.recPos.x, player.recPos.y),
-   .offset = .init(windowW / 2, windowH / 2),
-   .rotation = 0,
-   .zoom = 1,
+const mycamera = enum {
+   var camera: rl.Camera2D = undefined;
+   var cameratarget = camera.target(rl.Vector2.init(32, 32));
 };
-
 
 fn movementofplayer() void {
    if (rl.isKeyDown(.j) != true and rl.isKeyDown(.k) != true) {
@@ -40,13 +36,13 @@ fn movementofplayer() void {
       }
    }
 
-   if (player.recPos.y > windowH - player.recSize.y - 180) {
-      player.recPos.y = windowH - player.recSize.y - 180;
+   if (player.recPos.y > windowH - player.recSize.y) {
+      player.recPos.y = windowH - player.recSize.y;
    } else if (rl.isKeyDown(.k)) {   
          player.recPos.y -= 10;
    } 
 
-   if (player.recPos.x > (border.recSize.x - 590)) {
+   if (player.recPos.x > (border.recSize.x - 100)) {
       player.recPos.x = player.recPos.x;
    } else {
       if (rl.isKeyDown(.l)) {
@@ -67,19 +63,19 @@ fn movementofplayer() void {
 
 fn movementofcamera() void {
    if(rl.isKeyDown(.right)) {
-         camera.target.x += 1;
+         mycamera.camera.target.x += 1;
    }
 
    if(rl.isKeyDown(.left)) {
-         camera.target.x -= 1;
+         mycamera.camera.target.x -= 1;
    }
 
    if(rl.isKeyDown(.up)) {
-         camera.target.y -= 1;
+         mycamera.camera.target.y -= 1;
    }
 
    if(rl.isKeyDown(.down)) {
-         camera.target.y += 1;
+         mycamera.camera.target.y += 1;
    }
 
 }
