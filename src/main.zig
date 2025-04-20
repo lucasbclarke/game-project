@@ -2,8 +2,8 @@ const std = @import("std");
 const print = @import("std").debug.print;
 const rl = @import("raylib");
 
-const windowW: u16 = 1920;
-const windowH: u16 = 1080;
+const windowW: u16 = 1440;
+const windowH: u16 = 900;
 
 const player = enum {
    var recPos = rl.Vector2.init(650, 900);
@@ -14,12 +14,13 @@ const player = enum {
 const border = enum {
    var recPos = rl.Vector2.init(0, 0);
    const recSize = rl.Vector2.init(windowW, windowH);
-   const recC: rl.Color = .black;
+   const recC: rl.Color = .blue;
 };
 
-const mycamera = enum {
-   var camera: rl.Camera2D = undefined;
-   var cameratarget = camera.target(rl.Vector2.init(32, 32));
+const objective = enum {
+   var recPos = rl.Vector2.init(0, 450);
+   const recSize = rl.Vector2.init(50, 200);
+   const recC: rl.Color = .pink;
 };
 
 fn movementofplayer() void {
@@ -60,28 +61,23 @@ fn movementofplayer() void {
 
 }
 
+fn touchingObject() void {
+   if (player.recPos.x <= 50) {
+      if (player.recPos.y <= 650 and player.recPos.y >= 350) {
+         rl.drawText("You have reached the objective", windowW / 2, windowH / 2, 20 , .black);
 
-fn movementofcamera() void {
-   if(rl.isKeyDown(.right)) {
-         mycamera.camera.target.x += 1;
+      }
    }
-
-   if(rl.isKeyDown(.left)) {
-         mycamera.camera.target.x -= 1;
-   }
-
-   if(rl.isKeyDown(.up)) {
-         mycamera.camera.target.y -= 1;
-   }
-
-   if(rl.isKeyDown(.down)) {
-         mycamera.camera.target.y += 1;
-   }
-
 }
 
-
 pub fn main() !void {
+   var camera = rl.Camera2D{
+      .target = .init(border.recPos.x, border.recPos.y),
+      .offset = .init(0, 0),
+      .rotation = 0,
+      .zoom = 1,
+   };
+
    rl.initWindow(windowW, windowH, "Window");
    defer rl.closeWindow();
 
@@ -91,15 +87,42 @@ pub fn main() !void {
         rl.beginDrawing();
         defer rl.endDrawing();
 
-        rl.clearBackground(.black);
+        rl.clearBackground(.green);
+
+        camera.begin();
+        defer camera.end();
 
         rl.drawRectangleV(border.recPos, border.recSize, border.recC);
 
-        rl.drawFPS(500, 500);
-        
         rl.drawRectangleV(player.recPos, player.recSize, player.recC);
+
+        rl.drawRectangleV(objective.recPos, objective.recSize, objective.recC);
+
+        touchingObject();
+
+        rl.drawFPS(@intFromFloat(camera.target.x + 10), @intFromFloat(camera.target.y + 10));
       
         movementofplayer();    
-        movementofcamera();
+
+        if (rl.isKeyDown(.right)) {
+           camera.target.x += 5;
+        }
+
+        if (rl.isKeyDown(.left)) {
+           camera.target.x -= 5;
+        }
+
+        if (rl.isKeyDown(.up)) {
+           camera.target.y -= 5;
+        }
+
+        if (rl.isKeyDown(.down)) {
+           camera.target.y += 5;
+        }
+
+        if (rl.isKeyDown(.r)) {
+            camera.target = .init(0, 0);
+        }
+         
     }
 }
