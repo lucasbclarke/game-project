@@ -106,22 +106,19 @@ pub fn main() !void {
         rl.drawRectangleV(objective.recPos, objective.recSize, objective.recC);
 
         //trying to implement reset logic
-        if (reachedObj) {
-            if (rl.isKeyDown(.r)) {
-                player.recPos.x = 650;
-                player.recPos.y = 800;
-
-                camera.target.x = border.recPos.x;
-                camera.target.y = border.recPos.y;
-                movementofplayer();
-            } else {
-                rl.drawText("You have reached the objective", windowW / 4, windowH / 2, 20, .black);
-            }
+        if (reachedObj and rl.isKeyDown(.r)) {
+            player.recPos.x = 650;
+            player.recPos.y = 800;
+            camera.target.x = border.recPos.x;
+            camera.target.y = border.recPos.y;
+            movementofplayer();
+            reachedObj = false;
+        } else if (reachedObj) {
+            rl.drawText("You have reached the objective", windowW / 4, windowH / 2, 20, .black);
         } else {
             movementofplayer();
         }
-
-
+        
         rl.drawFPS(@intFromFloat(camera.target.x + 10), @intFromFloat(camera.target.y + 10));
 
         if (rl.isKeyDown(.right)) {
