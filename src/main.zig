@@ -60,8 +60,8 @@ fn movementofplayer() void {
 }
 
 fn touchingObject() bool {
-    if (player.recPos.x <= 50) {
-        if (player.recPos.y <= 650 and player.recPos.y >= 350) {
+    if (player.recPos.x <= (objective.recPos.x + objective.recSize.x)) {
+        if (player.recPos.y <= (objective.recPos.y + objective.recSize.y) and player.recPos.y >= 350) {
             return true;
         } else {
             return false;
@@ -105,8 +105,14 @@ pub fn main() !void {
 
         rl.drawRectangleV(objective.recPos, objective.recSize, objective.recC);
 
-        //trying to implement reset logic
         if (reachedObj and rl.isKeyDown(.r)) {
+            player.recPos.x = 650;
+            player.recPos.y = 800;
+            camera.target.x = border.recPos.x;
+            camera.target.y = border.recPos.y;
+            movementofplayer();
+            reachedObj = false;
+        } else if (rl.isKeyDown(.r)) {
             player.recPos.x = 650;
             player.recPos.y = 800;
             camera.target.x = border.recPos.x;
