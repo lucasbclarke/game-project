@@ -99,11 +99,22 @@ pub fn main() !void {
         camera.begin();
         defer camera.end();
 
-        rl.drawRectangleV(border.recPos, border.recSize, border.recC);
-
-        rl.drawRectangleV(player.recPos, player.recSize, player.recC);
-
-        rl.drawRectangleV(objective.recPos, objective.recSize, objective.recC);
+        //this is to be for some form of next level/objective not fully implemented yet
+        if (reachedObj and rl.isKeyDown(.e)) {
+            border.recPos.x = border.recPos.x + 50;
+            border.recPos.y = border.recPos.y + 50;
+            player.recPos.x = player.recPos.x + 50;
+            player.recPos.y = player.recPos.y + 50;
+            objective.recPos.x = objective.recPos.x + 50;
+            objective.recPos.y = objective.recPos.y + 50;
+            rl.drawRectangleV(border.recPos, border.recSize, border.recC);
+            rl.drawRectangleV(player.recPos, player.recSize, player.recC);
+            rl.drawRectangleV(objective.recPos, objective.recSize, objective.recC);
+        } else {
+            rl.drawRectangleV(border.recPos, border.recSize, border.recC);
+            rl.drawRectangleV(player.recPos, player.recSize, player.recC);
+            rl.drawRectangleV(objective.recPos, objective.recSize, objective.recC);
+        }
 
         if (reachedObj and rl.isKeyDown(.r)) {
             player.recPos.x = 650;
@@ -124,6 +135,7 @@ pub fn main() !void {
         } else {
             movementofplayer();
         }
+
         
         rl.drawFPS(@intFromFloat(camera.target.x + 10), @intFromFloat(camera.target.y + 10));
 
