@@ -101,12 +101,10 @@ pub fn main() !void {
 
         //this is to be for some form of next level/objective not fully implemented yet
         if (reachedObj and rl.isKeyDown(.e)) {
-            border.recPos.x = border.recPos.x + 50;
-            border.recPos.y = border.recPos.y + 50;
-            player.recPos.x = player.recPos.x + 50;
-            player.recPos.y = player.recPos.y + 50;
-            objective.recPos.x = objective.recPos.x + 50;
-            objective.recPos.y = objective.recPos.y + 50;
+            player.recPos.x = 650;
+            player.recPos.y = 800;
+            objective.recPos.x = std.Random.int(std.Random.init(), u16);
+            objective.recPos.y = std.Random.int(std.Random.init(), u16);
             rl.drawRectangleV(border.recPos, border.recSize, border.recC);
             rl.drawRectangleV(player.recPos, player.recSize, player.recC);
             rl.drawRectangleV(objective.recPos, objective.recSize, objective.recC);
