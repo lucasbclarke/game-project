@@ -81,6 +81,14 @@ pub fn main() !void {
         .zoom = 1,
     };
 
+    var prng = std.Random.DefaultPrng.init(blk: {
+        var seed: u64 = undefined;
+        try std.posix.getrandom(std.mem.asBytes(&seed));
+        break :blk seed;
+    });
+    var rand = prng.random();
+
+
     rl.initWindow(windowW, windowH, "Window");
     defer rl.closeWindow();
 
@@ -103,8 +111,8 @@ pub fn main() !void {
         if (reachedObj and rl.isKeyDown(.e)) {
             player.recPos.x = 650;
             player.recPos.y = 800;
-            objective.recPos.x = std.Random.int(std.Random.init(), u16);
-            objective.recPos.y = std.Random.int(std.Random.init(), u16);
+            objective.recPos.x = rand.float(f32);
+            objective.recPos.y = rand.float(f32);
             rl.drawRectangleV(border.recPos, border.recSize, border.recC);
             rl.drawRectangleV(player.recPos, player.recSize, player.recC);
             rl.drawRectangleV(objective.recPos, objective.recSize, objective.recC);
